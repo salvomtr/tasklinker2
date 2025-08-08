@@ -1,7 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block page_title %}{{ projet.nom }}{% endblock %}
+{% block page_title %}
+    <div class="flex-header project-header">
+        <h1>{{ projet.nom }}</h1>
+
+        <div class="user-list">
+            {% for employe in projet.employes %}
+                <div class="avatar">
+                    {{ employe.prenom|slice(0, 1)|upper ~ employe.nom|slice(0, 1)|upper }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="project-actions">
+            <a class="button" href="{{ path('app_projet_edit', { id: projet.id }) }}">
+                Inviter des membres
+            </a>
+        </div>
+    </div>
+{% endblock %}
 
 {% block body %}
-    <p>Détails du projet : {{ projet.nom }}</p>
+    <div id="tasks-container">
+        {% for statut in projet.statuts %}
+            <div class="task-column">
+                <h2>{{ statut.nom }}</h2>
+
+                <div class="tasks-list">
+                    {% for tache in projet.taches %}
+                        {% if tache.statut and tache.statut.id == statut.id %}
+                            <a class="task" href="{{ path('app_tache_edit', { id: tache.id }) }}">
+                                <h3>{{ tache.titre }}</h3>
+                                {% if tache.description %}
+                                    <p>{{ tache.description }}</p>
+                                {% endif %}
+                                <div class="task-infos">
+                                    {% if tache.deadline %}
+                                        <div class="task-deadline">
+                                            <i class="fa-regular fa-calendar"></i>
+                                            {{ tache.deadline|date('d/m/Y') }}
+                                        </div>
+                                    {% endif %}
+                                    {% if tache.employe %}
+                                        <div class="mini-user">
+                                            {{ tache.employe.prenom|slice(0,1)|upper ~ tache.employe.nom|slice(0,1)|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <a href="{{ path('app_tache_add', { projet: projet.id, statut: statut.id }) }}" class="task-add">
+                        + Ajouter une tâche
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
+
+

@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Modifier le projet{% endblock %}
-{% block page_title %}Modifier le projet{% endblock %}
+{% block page_title %}Modifier {{ projet.nom }}{% endblock %}
 
 {% block body %}
-    <p>Formulaire d’édition à venir pour : {{ projet.nom }}</p>
+    {{ form_start(form) }}
+
+    {{ form_row(form.nom) }}
+    {{ form_row(form.employes) }}
+
+    <button class="button button-submit">Enregistrer</button>
+
+    {{ form_end(form) }}
 {% endblock %}

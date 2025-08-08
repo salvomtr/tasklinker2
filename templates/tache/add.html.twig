@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle tâche{% endblock %}
+{% block page_title %}Ajouter une tâche au projet : {{ projet.nom }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.deadline) }}
+    {{ form_row(form.statut) }}
+    {{ form_row(form.employe) }}
+    <button class="button button-submit">Créer la tâche</button>
+    {{ form_end(form) }}
+{% endblock %}

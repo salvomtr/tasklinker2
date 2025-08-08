@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Créer un projet{% endblock %}
-{% block page_title %}Nouveau projet{% endblock %}
+{% block page_title %}Créer un projet{% endblock %}
 
 {% block body %}
     {{ form_start(form) }}
+
     {{ form_row(form.nom) }}
     {{ form_row(form.employes) }}
-    <button class="button button-submit">Continuer</button>
+
+    <button class="button button-submit">Créer</button>
+
     {{ form_end(form) }}
 {% endblock %}

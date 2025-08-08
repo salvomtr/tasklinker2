@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la tâche{% endblock %}
+{% block page_title %}Modifier la tâche : {{ tache.titre }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.deadline) }}
+    {{ form_row(form.statut) }}
+    {{ form_row(form.employe) }}
+    <button class="button button-submit">Enregistrer</button>
+    <a href="{{ path('app_tache_delete', { id: tache.id }) }}" class="delete-task">Supprimer la tâche</a>
+    {{ form_end(form) }}
+{% endblock %}

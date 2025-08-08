@@ -16,6 +16,16 @@ class ProjetRepository extends ServiceEntityRepository
         parent::__construct($registry, Projet::class);
     }
 
+    public function findNonArchives(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.archive = false')
+            ->orderBy('p.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Projet[] Returns an array of Projet objects
     //     */

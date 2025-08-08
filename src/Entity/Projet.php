@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ProjetRepository::class)]
 class Projet
 {
@@ -18,9 +19,6 @@ class Projet
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column]
-    private ?bool $archive = null;
-
     #[ORM\OneToMany(mappedBy: 'projet', targetEntity: Tache::class)]
     private Collection $taches;
 
@@ -30,11 +28,16 @@ class Projet
     #[ORM\OneToMany(mappedBy: 'projet', targetEntity: Statut::class, orphanRemoval: true)]
     private Collection $statuts;
 
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $archive = false;
+
+
     public function __construct()
     {
         $this->taches = new ArrayCollection();
         $this->employes = new ArrayCollection();
         $this->statuts = new ArrayCollection();
+        $this->archive = false;
     }
 
     // Getters & setters pour id, nom, archive...
@@ -45,13 +48,6 @@ class Projet
 
     public function setNom(string $nom): static {
         $this->nom = $nom;
-        return $this;
-    }
-
-    public function isArchive(): ?bool { return $this->archive; }
-
-    public function setArchive(bool $archive): static {
-        $this->archive = $archive;
         return $this;
     }
 
@@ -106,4 +102,16 @@ class Projet
         }
         return $this;
     }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
+        return $this;
+    }
+
 }

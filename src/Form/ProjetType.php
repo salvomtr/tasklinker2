@@ -36,4 +36,5 @@ class ProjetType extends AbstractType
             'data_class' => Projet::class,
         ]);
     }
+
 }
