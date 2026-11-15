@@ -28,6 +28,10 @@ final class ProjetController extends AbstractController
     #[Route('/projet/{id<\d+>}', name: 'app_projet_show')]
     public function show(Projet $projet): Response
     {
+        if ($projet->isArchive()) {
+            throw $this->createNotFoundException('Ce projet est archivé.');
+        }
+
         return $this->render('projet/show.html.twig', [
             'projet' => $projet,
         ]);
@@ -37,6 +41,10 @@ final class ProjetController extends AbstractController
     #[Route('/projet/{id}/edit', name: 'app_projet_edit')]
     public function edit(Projet $projet, Request $request, EntityManagerInterface $em): Response
     {
+        if ($projet->isArchive()) {
+            throw $this->createNotFoundException('Ce projet est archivé.');
+        }
+
         $form = $this->createForm(ProjetType::class, $projet);
         $form->handleRequest($request);
 
