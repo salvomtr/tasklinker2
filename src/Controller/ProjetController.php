@@ -76,7 +76,7 @@ final class ProjetController extends AbstractController
             $em->persist($projet);
             $em->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_projet_show', ['id' => $projet->getId()]);
         }
 
         return $this->render('projet/add.html.twig', [
