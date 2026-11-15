@@ -21,7 +21,7 @@ class  TacheController extends AbstractController
         $tache->setProjet($projet);
         $tache->setStatut($statut);
 
-        $form = $this->createForm(TacheType::class, $tache);
+        $form = $this->createForm(TacheType::class, $tache, ['projet' => $projet]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,7 +42,7 @@ class  TacheController extends AbstractController
     #[Route('/tache/{id}/edit', name: 'app_tache_edit')]
     public function edit(Request $request, Tache $tache, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(TacheType::class, $tache);
+        $form = $this->createForm(TacheType::class, $tache, ['projet' => $tache->getProjet()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Employe;
+use App\Entity\Projet;
 use App\Entity\Statut;
 use App\Entity\Tache;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -34,6 +35,7 @@ class TacheType extends AbstractType
                 'class' => Statut::class,
                 'choice_label' => 'nom',
                 'label' => 'Statut',
+                'choices' => $options['projet']->getStatuts()->toArray(),
             ])
             ->add('employe', EntityType::class, [
                 'class' => Employe::class,
@@ -41,6 +43,7 @@ class TacheType extends AbstractType
                 'choice_label' => fn(Employe $e) => $e->getPrenom() . ' ' . $e->getNom(),
                 'label' => 'Membre',
                 'placeholder' => '',
+                'choices' => $options['projet']->getEmployes()->toArray(),
             ]);
     }
 
@@ -49,5 +52,7 @@ class TacheType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Tache::class,
         ]);
+        $resolver->setRequired('projet');
+        $resolver->setAllowedTypes('projet', Projet::class);
     }
 }
