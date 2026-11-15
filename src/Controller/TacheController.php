@@ -17,6 +17,11 @@ class  TacheController extends AbstractController
     #[Route('/projet/{projet}/statut/{statut}/tache/add', name: 'app_tache_add')]
     public function add(Request $request, Projet $projet, Statut $statut, EntityManagerInterface $em): Response
     {
+
+        if ($projet->isArchive()) {
+            throw $this->createNotFoundException('Ce projet est archivé.');
+        }
+
         $tache = new Tache();
         $tache->setProjet($projet);
         $tache->setStatut($statut);
@@ -42,6 +47,10 @@ class  TacheController extends AbstractController
     #[Route('/tache/{id}/edit', name: 'app_tache_edit')]
     public function edit(Request $request, Tache $tache, EntityManagerInterface $em): Response
     {
+        if ($tache->getProjet()->isArchive()) {
+            throw $this->createNotFoundException('Ce projet est archivé.');
+        }
+
         $form = $this->createForm(TacheType::class, $tache, ['projet' => $tache->getProjet()]);
         $form->handleRequest($request);
 
@@ -62,6 +71,10 @@ class  TacheController extends AbstractController
     #[Route('/tache/{id}/delete', name: 'app_tache_delete')]
     public function delete(Tache $tache, EntityManagerInterface $em): Response
     {
+        if ($tache->getProjet()->isArchive()) {
+            throw $this->createNotFoundException('Ce projet est archivé.');
+        }
+
         $projet = $tache->getProjet();
 
         $em->remove($tache);
