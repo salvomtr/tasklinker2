@@ -31,7 +31,7 @@ class Employe
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEntree = null;
 
-    #[ORM\ManyToMany(targetEntity: Projet::class, inversedBy: 'employes')]
+    #[ORM\ManyToMany(targetEntity: Projet::class, mappedBy: 'employes')]
     private Collection $projets;
 
     #[ORM\OneToMany(mappedBy: 'employe', targetEntity: Tache::class)]
@@ -92,12 +92,15 @@ class Employe
     public function addProjet(Projet $projet): static {
         if (!$this->projets->contains($projet)) {
             $this->projets->add($projet);
+            $projet->addEmploye($this);
         }
         return $this;
     }
 
     public function removeProjet(Projet $projet): static {
-        $this->projets->removeElement($projet);
+        if ($this->projets->removeElement($projet)) {
+            $projet->removeEmploye($this);
+        }
         return $this;
     }
 

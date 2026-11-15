@@ -41,7 +41,7 @@ class EmployeController extends AbstractController
 
 
 
-    #[Route('/employe/{id}/delete', name: 'app_employe_delete', methods: ['POST'])]
+    #[Route('/employe/{id}/delete', name: 'app_employe_delete')]
     public function delete(Employe $employe, EntityManagerInterface $em): Response
     {
         // Supprimer employé des projets
